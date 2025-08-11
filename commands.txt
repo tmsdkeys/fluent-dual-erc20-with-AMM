@@ -1,0 +1,25 @@
+Deploy RustToken.wasm
+
+gblend create RustToken.wasm \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast \
+    --verify \
+    --wasm \
+    --verifier blockscout \
+    --verifier-url https://testnet.fluentscan.xyz/api/
+
+Deploy Soldity MyToken.sol 
+
+gblend create src/MyToken.sol:MyToken \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast \
+    --constructor-args  \
+    "EvmToken" \
+    "EVMTK" \
+    "5000000" \
+    "0xBE4Adf6b0e135A7806e0a8437C103632991B6A87"
+
+Deployed RustToken: 0x8108c36844Faf04C091973E95aE2B725cdCb55cC
+Deployed EvmToken: 0xcB340aB3c8e00886C5DBF09328D50af6D40B9EEb

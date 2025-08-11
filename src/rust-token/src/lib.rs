@@ -16,7 +16,7 @@ pub trait ERC20API {
     fn name(&self) -> Bytes;
     fn decimals(&self) -> U256;
     fn total_supply(&self) -> U256;
-    fn balance_of(&self, address: Address) -> U256;
+    fn balance_of(&self, account: Address) -> U256;
     fn transfer(&mut self, to: Address, value: U256) -> U256;
     fn allowance(&self, owner: Address, spender: Address) -> U256;
     fn approve(&mut self, spender: Address, value: U256) -> U256;
@@ -116,11 +116,11 @@ struct ERC20<SDK> {
 #[router(mode = "solidity")]
 impl<SDK: SharedAPI> ERC20API for ERC20<SDK> {
     fn symbol(&self) -> Bytes {
-        Bytes::from("TOK")
+        Bytes::from("RUSTTK")
     }
 
     fn name(&self) -> Bytes {
-        Bytes::from("Token")
+        Bytes::from("RustyToken")
     }
 
     fn decimals(&self) -> U256 {
@@ -131,8 +131,8 @@ impl<SDK: SharedAPI> ERC20API for ERC20<SDK> {
         U256::from_str_radix("1000000000000000000000000", 10).unwrap()
     }
 
-    fn balance_of(&self, address: Address) -> U256 {
-        Balance::get(&self.sdk, address)
+    fn balance_of(&self, account: Address) -> U256 {
+        Balance::get(&self.sdk, account)
     }
 
     fn transfer(&mut self, to: Address, value: U256) -> U256 {

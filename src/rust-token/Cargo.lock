@@ -1103,15 +1103,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
-name = "erc20-rust"
-version = "0.1.0"
-dependencies = [
- "alloy-sol-types",
- "fluentbase-sdk",
- "hex-literal",
-]
-
-[[package]]
 name = "errno"
 version = "0.3.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2269,6 +2260,15 @@ name = "ruint-macro"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48fd7bd8a6377e15ad9d42a8ec25371b94ddc67abe7c8b9127bec79bebaaae18"
+
+[[package]]
+name = "rust-token"
+version = "0.1.0"
+dependencies = [
+ "alloy-sol-types",
+ "fluentbase-sdk",
+ "hex-literal",
+]
 
 [[package]]
 name = "rustc-demangle"
