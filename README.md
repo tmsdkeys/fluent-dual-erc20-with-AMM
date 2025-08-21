@@ -31,8 +31,8 @@ test/                             # Forge test suite
 
 The deployment script will output the addresses of both deployed tokens:
 
-- **RustyToken (RUST)**: ERC20 token implemented in Rust/WASM
-- **SolToken (SOLT)**: ERC20 token implemented in Solidity
+- **RustyToken (RUST)**: [0x3785F7f6046f4401b6a7cC94397ecb42A26C7fD5](https://testnet.fluentscan.xyz/address/0x3785F7f6046f4401b6a7cC94397ecb42A26C7fD5)
+- **SolToken (SOLT)**: [0xa37f1A5eedfb1D4e81AbE78c4B4b28c91744D1ab](https://testnet.fluentscan.xyz/address/0xa37f1A5eedfb1D4e81AbE78c4B4b28c91744D1ab)
 
 ## Features
 
