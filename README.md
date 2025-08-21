@@ -70,18 +70,25 @@ The deployment script will output the addresses of both deployed tokens:
 - [Foundry](https://getfoundry.sh/) - For Solidity development and testing
 - [Rust](https://rustup.rs/) - For WASM contract development
 - [Fluent CLI (gblend)](https://docs.fluent.xyz/gblend/installation) - For deployment and interaction
+- [Node.js](https://nodejs.org/) - For JavaScript client usage (optional)
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/tmsdkeys/fluent-dual-erc20.git
+git clone https://github.com/tmsdkeys/fluent-dual-erc20-with-AMM.git
 cd fluent-dual-erc20
 ```
 
 2. Install Foundry dependencies:
 ```bash
 forge install
+```
+
+3. (Optional) Install JavaScript client dependencies:
+```bash
+cd js-client
+npm install
 ```
 
 ## Usage
@@ -180,6 +187,11 @@ gblend script script/BootstrapAMM.s.sol \
    - Bob: 5,000 tokens of each type (swapper)
    - Charlie: 2,500 tokens of each type (additional tester)
 5. **Verifies setup** and displays final balances
+
+**Note for JavaScript developers**: You can also use the js-client to bootstrap and test the AMM:
+- `npm run bootstrap` - Bootstrap the AMM with liquidity and test accounts
+- `npm run test-basic` - Test the AMM functionality
+- Add your private key in `config.js` before running these commands
 
 ### Verification
 
