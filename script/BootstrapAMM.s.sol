@@ -91,9 +91,11 @@ contract BootstrapAMM is Script {
         require(balanceA >= INITIAL_LIQUIDITY * 2, "Insufficient Token A for bootstrap");
         require(balanceB >= INITIAL_LIQUIDITY * 2, "Insufficient Token B for bootstrap");
         
-        // Approve AMMs
-        tokenA.approve(address(basicAmm), INITIAL_LIQUIDITY);
-        tokenB.approve(address(basicAmm), INITIAL_LIQUIDITY);
+        // Approve AMMs with max amounts for future interactions
+        console.log("Approving max amounts for deployer...");
+        tokenA.approve(address(basicAmm), type(uint256).max);
+        tokenB.approve(address(basicAmm), type(uint256).max);
+        console.log("  Deployer approved max amounts for Basic AMM");
         
         // Add liquidity to Basic AMM
         console.log("Adding liquidity to Basic AMM...");
