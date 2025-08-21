@@ -116,7 +116,7 @@ struct ERC20<SDK> {
 #[router(mode = "solidity")]
 impl<SDK: SharedAPI> ERC20API for ERC20<SDK> {
     fn symbol(&self) -> Bytes {
-        Bytes::from("RUSTTK")
+        Bytes::from("RUST")
     }
 
     fn name(&self) -> Bytes {

@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import {Script, console} from "forge-std/Script.sol";
-import {IRustToken} from "../out/RustToken.wasm/interface.sol";
 import {MyToken} from "../src/MyToken.sol";
 
 contract DeployRustToken is Script {
