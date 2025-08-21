@@ -55,7 +55,7 @@ gblend verify-contract $SOLT_TOKEN_ADDRESS src/MyToken.sol:MyToken \
 
 ## Verify BasicAMM
 
-forge verify-contract $BASIC_AMM BasicAMM \
+gblend verify-contract $BASIC_AMM_ADDRESS src/BasicAMM.sol:BasicAMM \
     --verifier blockscout \
     --verifier-url https://testnet.fluentscan.xyz/api/ \
     --constructor-args $(cast abi-encode "constructor(address,address,string,string)" $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP")
