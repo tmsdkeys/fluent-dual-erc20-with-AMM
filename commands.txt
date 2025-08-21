@@ -26,6 +26,11 @@ gblend create src/MyToken.sol:MyToken \
 
 ## Deploy BasicAMM
 
+gblend script script/DeployAMM.s.sol \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast
+
 gblend create src/BasicAMM.sol:BasicAMM \
     --rpc-url $RPC_URL \
     --private-key $PRIVATE_KEY \
