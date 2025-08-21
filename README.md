@@ -140,6 +140,8 @@ export MY_ADDRESS="your_wallet_address_here"
 
 ## Deployed Contracts
 
+> **View Live Contracts**: You can check out the deployed versions of these tokens on the [Fluent Testnet Explorer](https://testnet.fluentscan.xyz) using the contract addresses below.
+
 The deployment script will output the addresses of both deployed tokens:
 
 - **RustyToken (RUST)**: ERC20 token implemented in Rust/WASM
