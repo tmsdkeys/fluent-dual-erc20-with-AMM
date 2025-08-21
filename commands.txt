@@ -32,7 +32,7 @@ gblend script script/DeployAMM.s.sol \
     --broadcast
 
 gblend create src/BasicAMM.sol:BasicAMM \
-    --rpc-url $RPC_URL \
+    --rpc-url https://rpc.testnet.fluent.xyz \
     --private-key $PRIVATE_KEY \
     --broadcast \
     --constructor-args $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP"

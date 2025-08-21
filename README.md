@@ -8,19 +8,24 @@ This repository contains a complete ERC20 token ecosystem with:
 
 - **Solidity ERC20 Token** (`MyToken.sol`) - Traditional Solidity implementation using OpenZeppelin contracts
 - **Rust/WASM ERC20 Token** (`rust-token/`) - Modern WebAssembly implementation using the FluentBase SDK
-- **Deployment Scripts** - Automated deployment of both token types
+- **Basic AMM Contract** (`BasicAMM.sol`) - Constant product AMM implementation for token swapping and liquidity provision
+- **Deployment Scripts** - Automated deployment of both token types and AMM
+- **Bootstrapping Script** (`BootstrapAMM.s.sol`) - Automated setup of liquidity pools and test accounts for benchmarking
 
 ## Project Structure
 
 ```
 src/
 ├── MyToken.sol                   # Solidity ERC20 implementation
+├── BasicAMM.sol                  # Basic AMM implementation for token swapping
 ├── rust-token/                   # Rust/WASM ERC20 implementation
 │   ├── Cargo.toml                # Rust dependencies and build config
 │   └── src/lib.rs                # Rust ERC20 contract logic
 
 script/
-└── DeployTokens.s.sol            # Deployment script for both tokens
+├── DeployTokens.s.sol            # Deployment script for both tokens
+├── DeployAMM.s.sol               # Deployment script for AMM contract
+└── BootstrapAMM.s.sol            # Bootstrapping script for liquidity and testing
 
 test/                             # Forge test suite
 ```
@@ -50,6 +55,15 @@ The deployment script will output the addresses of both deployed tokens:
 - Uses FluentBase SDK for blockchain integration
 - Optimized for gas efficiency and performance
 - Fixed supply of 1,000,000 tokens with 18 decimals
+
+### Basic AMM (BasicAMM.sol)
+
+- Constant product AMM implementation (x * y = k)
+- Token swapping functionality with 0.3% fee
+- Liquidity provision and removal
+- LP token minting and burning
+- Gas usage tracking for benchmarking
+- Reentrancy protection and access control
 
 ## Prerequisites
 
@@ -84,16 +98,29 @@ gblend build
 
 ### Deployment
 
-#### Deploy Both Tokens (Recommended)
+#### Deploy Complete Ecosystem (Recommended)
 
 ```bash
+# 1. Deploy both tokens
 gblend script script/DeployTokens.s.sol \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast
+
+# 2. Deploy AMM contract
+gblend script script/DeployAMM.s.sol \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast
+
+# 3. Bootstrap AMM with liquidity and test accounts
+gblend script script/BootstrapAMM.s.sol \
     --rpc-url https://rpc.testnet.fluent.xyz \
     --private-key $PRIVATE_KEY \
     --broadcast
 ```
 
-#### Deploy Individual Tokens
+#### Deploy Individual Components
 
 **Deploy Rust/WASM Token:**
 
@@ -118,6 +145,42 @@ gblend create src/MyToken.sol:MyToken \
     --constructor-args $(cast abi-encode "constructor(string,string,uint256,address)" "SolToken" "SOLT" 5000000 $MY_ADDRESS)
 ```
 
+**Deploy Basic AMM:**
+
+```bash
+gblend create src/BasicAMM.sol:BasicAMM \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast \
+    --constructor-args $(cast abi-encode "constructor(address,address,string,string)" $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP")
+```
+
+### Bootstrapping
+
+The `BootstrapAMM.s.sol` script automatically sets up your deployed contracts for testing and benchmarking:
+
+- **Initial Liquidity**: Adds 10,000 tokens of each type to the AMM pool
+- **Test Accounts**: Creates three test accounts (Alice, Bob, Charlie) with token balances
+- **Verification**: Confirms all setup is complete and ready for testing
+
+```bash
+gblend script script/BootstrapAMM.s.sol \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast
+```
+
+**What the bootstrap script does:**
+
+1. **Loads deployed contracts** from `deployments/testnet.json`
+2. **Creates test accounts** with deterministic addresses for consistency
+3. **Adds initial liquidity** to the AMM pool (10,000 tokens each)
+4. **Funds test accounts**:
+   - Alice: 5,000 tokens of each type (liquidity provider)
+   - Bob: 5,000 tokens of each type (swapper)
+   - Charlie: 2,500 tokens of each type (additional tester)
+5. **Verifies setup** and displays final balances
+
 ### Verification
 
 **Verify Rust/WASM Token:**
@@ -138,6 +201,15 @@ gblend verify-contract $SOLT_TOKEN_ADDRESS src/MyToken.sol:MyToken \
     --constructor-args $(cast abi-encode "constructor(string,string,uint256,address)" "SolToken" "SOLT" 5000000 $MY_ADDRESS)
 ```
 
+**Verify Basic AMM:**
+
+```bash
+gblend verify-contract $BASIC_AMM_ADDRESS src/BasicAMM.sol:BasicAMM \
+    --verifier blockscout \
+    --verifier-url https://testnet.fluentscan.xyz/api/ \
+    --constructor-args $(cast abi-encode "constructor(address,address,string,string)" $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP")
+```
+
 ## Environment Variables
 
 Set the following environment variables before deployment:
@@ -149,11 +221,21 @@ export MY_ADDRESS="your_wallet_address_here"
 
 ## Development
 
+### Testing the AMM
+
+After bootstrapping, you can test the AMM functionality:
+
+1. **Add Liquidity**: Use Alice's account to add more liquidity
+2. **Swap Tokens**: Use Bob's account to perform token swaps
+3. **Remove Liquidity**: Test LP token burning and liquidity removal
+4. **Gas Benchmarking**: Monitor gas usage for different operations
+
 ### Adding New Token Types
 
 1. Create a new token implementation in the appropriate language
 2. Add deployment logic to `DeployTokens.s.sol`
-3. Update tests to cover the new functionality
+3. Update AMM deployment to include the new token
+4. Update tests to cover the new functionality
 
 *Note: Token factory infrastructure for automated token creation is planned for future releases.*
 
