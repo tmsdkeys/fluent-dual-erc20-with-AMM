@@ -25,6 +25,15 @@ script/
 test/                             # Forge test suite
 ```
 
+## Deployed Contracts
+
+> **View Live Contracts**: You can check out the deployed versions of these tokens on the [Fluent Testnet Explorer](https://testnet.fluentscan.xyz) using the contract addresses below.
+
+The deployment script will output the addresses of both deployed tokens:
+
+- **RustyToken (RUST)**: ERC20 token implemented in Rust/WASM
+- **SolToken (SOLT)**: ERC20 token implemented in Solidity
+
 ## Features
 
 ### Solidity Token (MyToken.sol)
@@ -137,15 +146,6 @@ Set the following environment variables before deployment:
 export PRIVATE_KEY="your_private_key_here"
 export MY_ADDRESS="your_wallet_address_here"
 ```
-
-## Deployed Contracts
-
-> **View Live Contracts**: You can check out the deployed versions of these tokens on the [Fluent Testnet Explorer](https://testnet.fluentscan.xyz) using the contract addresses below.
-
-The deployment script will output the addresses of both deployed tokens:
-
-- **RustyToken (RUST)**: ERC20 token implemented in Rust/WASM
-- **SolToken (SOLT)**: ERC20 token implemented in Solidity
 
 ## Development
 
