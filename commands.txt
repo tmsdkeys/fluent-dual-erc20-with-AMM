@@ -60,5 +60,12 @@ gblend verify-contract $BASIC_AMM_ADDRESS src/BasicAMM.sol:BasicAMM \
     --verifier-url https://testnet.fluentscan.xyz/api/ \
     --constructor-args $(cast abi-encode "constructor(address,address,string,string)" $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP")
 
+# Bootstrapping AMM Liquidity
+
+gblend script script/BootstrapAMM.s.sol:BootstrapAMM \
+    --rpc-url https://rpc.testnet.fluent.xyz \
+    --private-key $PRIVATE_KEY \
+    --broadcast
+
 Deployed RustyToken ($RUST): 0x3785F7f6046f4401b6a7cC94397ecb42A26C7fD5
 Deployed SolToken ($SOLT): 0xa37f1A5eedfb1D4e81AbE78c4B4b28c91744D1ab
