@@ -1,11 +1,11 @@
-# Deploy both Tokens combined
+## Deploy both Tokens combined
 
 gblend script script/DeployTokens.s.sol \
     --rpc-url https://rpc.testnet.fluent.xyz \
     --private-key $PRIVATE_KEY \
     --broadcast
 
-# Deploy (and verify) RustToken.wasm
+## Deploy (and verify) RustToken.wasm
 
 gblend create RustToken.wasm \
     --rpc-url https://rpc.testnet.fluent.xyz \
@@ -16,7 +16,7 @@ gblend create RustToken.wasm \
     --verifier blockscout \
     --verifier-url https://testnet.fluentscan.xyz/api/
 
-# Deploy Soldity MyToken.sol 
+## Deploy Soldity MyToken.sol 
 
 gblend create src/MyToken.sol:MyToken \
     --rpc-url https://rpc.testnet.fluent.xyz \
@@ -24,20 +24,36 @@ gblend create src/MyToken.sol:MyToken \
     --broadcast \
     --constructor-args $(cast abi-encode "constructor(string,string,uint256,address)" "SolToken" "SOLT" 5000000 $MY_ADDRESS)
 
+## Deploy BasicAMM
 
-# Verify RustToken.wasm
+gblend create src/BasicAMM.sol:BasicAMM \
+    --rpc-url $RPC_URL \
+    --private-key $PRIVATE_KEY \
+    --broadcast \
+    --constructor-args $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP"
+
+# Verification
+
+## Verify RustToken.wasm
 
 gblend verify-contract $RUST_TOKEN_ADDRESS RustToken.wasm \
     --wasm \
     --verifier blockscout \
     --verifier-url https://testnet.fluentscan.xyz/api/
 
-# Verify SolToken.sol
+## Verify SolToken.sol
 
 gblend verify-contract $SOLT_TOKEN_ADDRESS src/MyToken.sol:MyToken \
     --verifier blockscout \
     --verifier-url https://testnet.fluentscan.xyz/api/ \
     --constructor-args $(cast abi-encode "constructor(string,string,uint256,address)" "SolToken" "SOLT" 5000000 $MY_ADDRESS)
+
+## Verify BasicAMM
+
+forge verify-contract $BASIC_AMM BasicAMM \
+    --verifier blockscout \
+    --verifier-url https://testnet.fluentscan.xyz/api/ \
+    --constructor-args $(cast abi-encode "constructor(address,address,string,string)" $SOLT_TOKEN_ADDRESS $RUST_TOKEN_ADDRESS "Basic AMM SOLTRUST LP Token" "SOLTRUST-LP")
 
 Deployed RustyToken ($RUST): 0x3785F7f6046f4401b6a7cC94397ecb42A26C7fD5
 Deployed SolToken ($SOLT): 0xa37f1A5eedfb1D4e81AbE78c4B4b28c91744D1ab
